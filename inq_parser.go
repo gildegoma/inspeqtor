@@ -159,6 +159,8 @@ func convertAction(global *ConfigFile, check Eventable, action ast.Action) (Acti
 			return nil, errors.New("No alert route configured!")
 		}
 		return Actions["alert"](check, route)
+	case "reload":
+		return Actions["reload"](check, nil)
 	case "restart":
 		return Actions["restart"](check, nil)
 	}
