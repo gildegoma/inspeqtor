@@ -1,26 +1,27 @@
+
 package lexer
 
 import (
+	
 	// "fmt"
 	// "github.com/mperham/inspeqtor/conf/inq/util"
-
+	
 	"io/ioutil"
 	"unicode/utf8"
-
 	"github.com/mperham/inspeqtor/conf/inq/token"
 )
 
-const (
-	NoState    = -1
-	NumStates  = 63
-	NumSymbols = 101
-)
+const(
+	NoState = -1
+	NumStates = 67
+	NumSymbols = 107
+) 
 
 type Lexer struct {
-	src    []byte
-	pos    int
-	line   int
-	column int
+	src             []byte
+	pos             int
+	line            int
+	column          int
 }
 
 func NewLexer(src []byte) *Lexer {
@@ -42,9 +43,9 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 }
 
 func (this *Lexer) Scan() (tok *token.Token) {
-
+	
 	// fmt.Printf("Lexer.Scan() pos=%d\n", this.pos)
-
+	
 	tok = new(token.Token)
 	if this.pos >= len(this.src) {
 		tok.Type = token.EOF
@@ -55,9 +56,9 @@ func (this *Lexer) Scan() (tok *token.Token) {
 	tok.Type = token.INVALID
 	state, rune1, size := 0, rune(-1), 0
 	for state != -1 {
-
+	
 		// fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", this.pos, this.line, this.column, state)
-
+	
 		if this.pos >= len(this.src) {
 			rune1 = -1
 		} else {
@@ -76,6 +77,7 @@ func (this *Lexer) Scan() (tok *token.Token) {
 			this.column++
 		}
 
+	
 		// Production start
 		if rune1 != -1 {
 			state = TransTab[state](rune1)
@@ -96,6 +98,7 @@ func (this *Lexer) Scan() (tok *token.Token) {
 		// }
 		// state = nextState
 		// Debug end
+	
 
 		if state != -1 {
 			switch {
@@ -162,80 +165,86 @@ Lexer symbols:
 23: 'a'
 24: 'r'
 25: 't'
-26: 'a'
-27: 'l'
-28: 'e'
-29: 'r'
-30: 't'
-31: 'w'
-32: 'i'
-33: 't'
-34: 'h'
-35: ':'
-36: '('
-37: ')'
+26: 'r'
+27: 'e'
+28: 'l'
+29: 'o'
+30: 'a'
+31: 'd'
+32: 'a'
+33: 'l'
+34: 'e'
+35: 'r'
+36: 't'
+37: 'w'
 38: 'i'
-39: 'f'
-40: 't'
-41: 'h'
-42: 'e'
-43: 'n'
-44: 'f'
-45: 'o'
-46: 'r'
-47: 'c'
-48: 'y'
-49: 'c'
-50: 'l'
-51: 'e'
-52: 's'
-53: '#'
-54: '\n'
-55: '_'
-56: '-'
-57: '.'
-58: '/'
-59: 'k'
-60: 'm'
-61: 'g'
-62: 't'
-63: 'p'
-64: '%'
-65: '!'
-66: '#'
-67: '$'
-68: '%'
-69: '&'
-70: '''
-71: '*'
-72: '+'
-73: '-'
-74: '/'
-75: '='
-76: '?'
-77: '^'
-78: '_'
-79: '`'
-80: '{'
-81: '|'
-82: '}'
-83: '~'
-84: '.'
-85: '@'
-86: '\'
-87: '"'
-88: '"'
-89: ' '
-90: '\t'
-91: '\n'
-92: '\r'
-93: 'a'-'z'
-94: 'A'-'Z'
-95: '0'-'9'
-96: 'A'-'Z'
-97: 'a'-'z'
-98: '0'-'9'
-99: \u0100-\U0010ffff
-100: .
+39: 't'
+40: 'h'
+41: ':'
+42: '('
+43: ')'
+44: 'i'
+45: 'f'
+46: 't'
+47: 'h'
+48: 'e'
+49: 'n'
+50: 'f'
+51: 'o'
+52: 'r'
+53: 'c'
+54: 'y'
+55: 'c'
+56: 'l'
+57: 'e'
+58: 's'
+59: '#'
+60: '\n'
+61: '_'
+62: '-'
+63: '.'
+64: '/'
+65: 'k'
+66: 'm'
+67: 'g'
+68: 't'
+69: 'p'
+70: '%'
+71: '!'
+72: '#'
+73: '$'
+74: '%'
+75: '&'
+76: '''
+77: '*'
+78: '+'
+79: '-'
+80: '/'
+81: '='
+82: '?'
+83: '^'
+84: '_'
+85: '`'
+86: '{'
+87: '|'
+88: '}'
+89: '~'
+90: '.'
+91: '@'
+92: '\'
+93: '"'
+94: '"'
+95: ' '
+96: '\t'
+97: '\n'
+98: '\r'
+99: 'a'-'z'
+100: 'A'-'Z'
+101: '0'-'9'
+102: 'A'-'Z'
+103: 'a'-'z'
+104: '0'-'9'
+105: \u0100-\U0010ffff
+106: .
 
 */
